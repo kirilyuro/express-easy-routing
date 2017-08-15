@@ -2,6 +2,7 @@
   "name": "express-easy-routing",
   "version": "0.0.1",
   "dependencies": {
-    
+    "@types/express": "^4.0.36",
+    "express": "^4.15.4"
   }
 }
