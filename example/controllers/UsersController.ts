@@ -1,7 +1,7 @@
-import { BaseController, RouteAction, ExpressHttpMethod as Http } from 'src/BaseController';
+import { Controller, RouteAction, HttpMethod as Http } from 'src/BaseController';
 import UsersHandler from '../handlers/UsersHandler';
 
-export class UsersController extends BaseController<UsersHandler> {
+export class UsersController extends Controller<UsersHandler> {
     protected getActions(): RouteAction[] {
         return [
             new RouteAction(Http.GET, '/:id', UsersHandler.prototype.getUser),

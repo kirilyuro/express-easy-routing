@@ -7,13 +7,13 @@ type RequestHandlerFunction = ((req: Request, res: Response) => void);
  * Base class for route controller definitions.
  * Generic type THandler: The type that implements the handling of the requests to this controller.
  */
-export abstract class BaseController<THandler> {
+export abstract class Controller<THandler> {
 
     /**
      * Get the express.js router object for this controller.
      * @returns {IRouter}
      */
-    public get expressRouter(): IRouter {
+    public get router(): IRouter {
         const router: IRouter = Router();
         const actions: RouteAction[] = this.getActions();
 
@@ -21,7 +21,7 @@ export abstract class BaseController<THandler> {
             // Get the matcher method of the router which corresponds
             // to the HTTP method which the action accepts.
             const routeMatcher: IRouterMatcher<IRouter> =
-                BaseController.getRouteMatcher(router, action.httpMethod);
+                Controller.getRouteMatcher(router, action.httpMethod);
 
             // Invoke the matcher method on the router by matching the action's url
             // and binding the action's handler function to the router.
@@ -40,19 +40,19 @@ export abstract class BaseController<THandler> {
     /**
      * Get the RouteMatcher method of express.js Router which corresponds to the given HTTP method.
      * @param {IRouter} router The router object.
-     * @param {ExpressHttpMethod} method The HTTP method.
+     * @param {HttpMethod} method The HTTP method.
      * @returns {e.IRouterMatcher<IRouter>} The corresponding route matcher.
      */
-    private static getRouteMatcher(router: IRouter, method: ExpressHttpMethod): IRouterMatcher<IRouter> {
+    private static getRouteMatcher(router: IRouter, method: HttpMethod): IRouterMatcher<IRouter> {
         switch (method){
-            case ExpressHttpMethod.ALL: return router.all;
-            case ExpressHttpMethod.OPTIONS: return router.options;
-            case ExpressHttpMethod.GET: return router.get;
-            case ExpressHttpMethod.HEAD: return router.head;
-            case ExpressHttpMethod.POST: return router.post;
-            case ExpressHttpMethod.PUT: return router.put;
-            case ExpressHttpMethod.DELETE: return router.delete;
-            case ExpressHttpMethod.PATCH: return router.patch;
+            case HttpMethod.ALL: return router.all;
+            case HttpMethod.OPTIONS: return router.options;
+            case HttpMethod.GET: return router.get;
+            case HttpMethod.HEAD: return router.head;
+            case HttpMethod.POST: return router.post;
+            case HttpMethod.PUT: return router.put;
+            case HttpMethod.DELETE: return router.delete;
+            case HttpMethod.PATCH: return router.patch;
             default: return null;
         }
     }
@@ -80,12 +80,12 @@ export abstract class BaseController<THandler> {
  */
 export class RouteAction {
     public constructor(
-        public httpMethod: ExpressHttpMethod,
+        public httpMethod: HttpMethod,
         public url: string,
         public handlerFunc: RequestHandlerFunction
     ){}
 }
 
-export enum ExpressHttpMethod {
+export enum HttpMethod {
     ALL, OPTIONS, GET, HEAD, POST, PUT, DELETE, PATCH
 }
