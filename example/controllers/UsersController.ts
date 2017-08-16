@@ -1,4 +1,4 @@
-import { Controller, RouteAction, HttpMethod as Http } from 'src/BaseController';
+import { Controller, RouteAction, HttpMethod as Http } from 'src/Controller';
 import UsersHandler from '../handlers/UsersHandler';
 
 export class UsersController extends Controller<UsersHandler> {
