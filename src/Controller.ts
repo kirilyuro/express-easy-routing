@@ -1,13 +1,13 @@
 import { Router, IRouterMatcher, Request, Response } from 'express';
 import { IRouter } from 'express-serve-static-core';
-
-type RequestHandlerFunction = ((req: Request, res: Response) => void);
+import HttpMethod from './HttpMethod';
+import RouteAction from './RouteAction';
 
 /**
  * Base class for route controller definitions.
  * Generic type THandler: The type that implements the handling of the requests to this controller.
  */
-export abstract class Controller<THandler> {
+abstract class Controller<THandler> {
 
     /**
      * Get the express.js router object for this controller.
@@ -71,21 +71,4 @@ export abstract class Controller<THandler> {
     protected abstract createHandler(): THandler;
 }
 
-/**
- * A definition of a route action, which consists of:
- * 1) The HTTP method that the route action accepts.
- * 2) The route url prefix.
- * 3) The handler function - a method of the handler class which should be called
- *    to handle a request that matches the route action.
- */
-export class RouteAction {
-    public constructor(
-        public httpMethod: HttpMethod,
-        public url: string,
-        public handlerFunc: RequestHandlerFunction
-    ){}
-}
-
-export enum HttpMethod {
-    ALL, OPTIONS, GET, HEAD, POST, PUT, DELETE, PATCH
-}
+export default Controller;
