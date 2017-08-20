@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import HttpMethod from './HttpMethod';
+import Argument from './arguments/Argument';
 
-type RequestHandlerFunction = ((req: Request, res: Response) => void);
+type RequestHandlerFunction = ((res: Response, ...params: any[]) => void);
 
 /**
  * A definition of a route action, which consists of:
@@ -14,6 +15,7 @@ export default class RouteAction {
     public constructor(
         public httpMethod: HttpMethod,
         public url: string,
-        public handlerFunc: RequestHandlerFunction
+        public handlerFunc: RequestHandlerFunction,
+        public args: Argument[] = []
     ){}
 }

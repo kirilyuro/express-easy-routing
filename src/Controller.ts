@@ -2,6 +2,7 @@ import { Router, IRouterMatcher, Request, Response } from 'express';
 import { IRouter } from 'express-serve-static-core';
 import HttpMethod from './HttpMethod';
 import RouteAction from './RouteAction';
+import Argument from './arguments/Argument';
 
 /**
  * Base class for route controller definitions.
@@ -27,10 +28,11 @@ abstract class Controller<THandler> {
             // and binding the action's handler function to the router.
             // ( This does: router.<get|post|put|...>(action.url, (req, res) => { ... }) )
             routeMatcher.apply(router, [action.url, (req: Request, res: Response) => {
-                const handler: THandler = this.createHandler();
+                const handler: THandler = this.createHandler(req);
+                const args = Controller.getArgumentValues(action.args, req);
 
                 // Invoke the method of the handler which should handler the current action.
-                action.handlerFunc.apply(handler, [req, res]);
+                action.handlerFunc.apply(handler, [res].concat(args));
             }]);
         }
 
@@ -58,6 +60,18 @@ abstract class Controller<THandler> {
     }
 
     /**
+     * Get the argument values defined by args from the given request.
+     * @param {Argument[]} args The argument definitions.
+     * @param {Request} req The request object.
+     * @returns {any[]} The argument values.
+     */
+    private static getArgumentValues(args: Argument[], req: Request): any[] {
+        return args.map(argument =>
+            argument.getValueFrom(req)
+        );
+    }
+
+    /**
      * Get the actions defined for this controller.
      * @returns {RouteAction[]} An array of RouteActions.
      */
@@ -68,7 +82,7 @@ abstract class Controller<THandler> {
      * @returns {THandler} The instance of the handler type.
      * @template THandler
      */
-    protected abstract createHandler(): THandler;
+    protected abstract createHandler(req: Request): THandler;
 }
 
 export default Controller;
