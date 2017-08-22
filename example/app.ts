@@ -1,11 +1,11 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { UsersController } from './controllers/UsersController';
+import UsersRoute from './routes/UsersRoute';
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use('/users', new UsersController().router);
+app.use('/users', new UsersRoute().router);
 
 app.listen(3000,() => {
     console.log('Example app listening on port 3000!');

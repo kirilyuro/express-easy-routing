@@ -1,35 +1,34 @@
 import Controller from 'src/Controller';
-import RouteAction from 'src/RouteAction';
-import Http from 'src/HttpMethod';
-import { Arguments, FromParams, RequestBody } from 'src/arguments/Arguments';
-import UsersHandler from '../handlers/UsersHandler';
+import User from '../model/User';
 
-export class UsersController extends Controller<UsersHandler> {
-    protected getActions(): RouteAction[] {
-        return [
-            new RouteAction(
-                Http.GET, '/:id',
-                UsersHandler.prototype.getUser,
-                Arguments(FromParams('id'))
-            ),
-            new RouteAction(
-                Http.GET, '/',
-                UsersHandler.prototype.getAllUsers
-            ),
-            new RouteAction(
-                Http.POST, '/',
-                UsersHandler.prototype.addUser,
-                Arguments(RequestBody())
-            ),
-            new RouteAction(
-                Http.DELETE, '/:id',
-                UsersHandler.prototype.deleteUser,
-                Arguments(FromParams('id'))
-            )
-        ];
+type Dictionary<T> = { [index: string]: T };
+
+export default class UsersController extends Controller {
+
+    private static readonly users: Dictionary<User> = {
+        '1': new User('1', 'Adam', 'adam@eden.org'),
+        '2': new User('2', 'Eve', 'eve@eden.org')
+    };
+
+    public getUser(id: string): void {
+        if (UsersController.users.hasOwnProperty(id)) {
+            this.response.json(UsersController.users[id]);
+            return;
+        }
+        this.response.sendStatus(404);
     }
 
-    protected createHandler(): UsersHandler {
-        return new UsersHandler();
+    public getAllUsers(): void {
+        this.response.json(UsersController.users);
+    }
+
+    public addUser(user: User): void {
+        UsersController.users[user.id] = user;
+        this.response.sendStatus(200);
+    }
+
+    public deleteUser(id: string): void {
+        delete UsersController.users[id];
+        this.response.sendStatus(200);
     }
 }
