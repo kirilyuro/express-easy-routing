@@ -17,6 +17,12 @@ export default class UsersController extends Controller {
         this.response.sendStatus(404);
     }
 
+    public getUserAsync(id: string): Promise<User> {
+        return new Promise<User>((resolve, reject) => {
+            resolve(this.getUser(id));
+        });
+    }
+
     public getAllUsers(): Dictionary<User> {
         return UsersController.users;
     }

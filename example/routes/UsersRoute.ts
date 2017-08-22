@@ -13,6 +13,11 @@ export default class UsersRoute extends Route {
                 Arguments(FromParams('id'))
             ),
             new RouteAction(
+                Http.GET, '/async/:id',
+                UsersController.prototype.getUserAsync,
+                Arguments(FromParams('id'))
+            ),
+            new RouteAction(
                 Http.GET, '/',
                 UsersController.prototype.getAllUsers
             ),
