@@ -32,7 +32,7 @@ abstract class Route {
                 const args: any[] = Route.getArgumentValues(action.args, req);
 
                 // Invoke the method of the controller that handles the current action.
-                action.controllerFunc.apply(controller, args);
+                controller.invokeActionMethod(action.controllerFunc, args);
             }]);
         }
 

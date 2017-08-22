@@ -10,25 +10,22 @@ export default class UsersController extends Controller {
         '2': new User('2', 'Eve', 'eve@eden.org')
     };
 
-    public getUser(id: string): void {
+    public getUser(id: string): User {
         if (UsersController.users.hasOwnProperty(id)) {
-            this.response.json(UsersController.users[id]);
-            return;
+            return UsersController.users[id];
         }
         this.response.sendStatus(404);
     }
 
-    public getAllUsers(): void {
-        this.response.json(UsersController.users);
+    public getAllUsers(): Dictionary<User> {
+        return UsersController.users;
     }
 
     public addUser(user: User): void {
         UsersController.users[user.id] = user;
-        this.response.sendStatus(200);
     }
 
     public deleteUser(id: string): void {
         delete UsersController.users[id];
-        this.response.sendStatus(200);
     }
 }
