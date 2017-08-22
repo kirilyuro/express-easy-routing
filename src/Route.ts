@@ -62,7 +62,7 @@ abstract class Route {
     /**
      * Initialize a new controller instance for the given request.
      * @param {Request} req The request.
-     * @param {e.Response} res The response handles of the request.
+     * @param {e.Response} res The response handler of the request.
      * @returns {Controller} A new controller instance.
      */
     private initializeController(req: Request, res: Response): Controller {
