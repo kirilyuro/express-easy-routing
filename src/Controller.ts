@@ -5,6 +5,7 @@ abstract class Controller {
     public response: Response;
 
     public invokeActionMethod(actionMethod: Function, args: any[]): void {
+        // TODO: Handle errors thrown from actionMethod.
         const actionResult: any = actionMethod.apply(this, args);
         this.handleActionResult(actionResult);
     }
