@@ -1,7 +1,7 @@
 import Route from 'src/Route';
 import RouteAction from 'src/RouteAction';
 import Http from 'src/HttpMethod';
-import { Arguments, FromParams, RequestBody } from 'src/arguments/Arguments';
+import { Arguments, FromRoute, RequestBody } from 'src/arguments/Arguments';
 import UsersController from '../controllers/UsersController';
 
 export default class UsersRoute extends Route {
@@ -10,12 +10,12 @@ export default class UsersRoute extends Route {
             new RouteAction(
                 Http.GET, '/:id',
                 UsersController.prototype.getUser,
-                Arguments(FromParams('id'))
+                Arguments(FromRoute('id'))
             ),
             new RouteAction(
                 Http.GET, '/async/:id',
                 UsersController.prototype.getUserAsync,
-                Arguments(FromParams('id'))
+                Arguments(FromRoute('id'))
             ),
             new RouteAction(
                 Http.GET, '/',
@@ -29,7 +29,7 @@ export default class UsersRoute extends Route {
             new RouteAction(
                 Http.DELETE, '/:id',
                 UsersController.prototype.deleteUser,
-                Arguments(FromParams('id'))
+                Arguments(FromRoute('id'))
             )
         ];
     }

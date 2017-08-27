@@ -1,7 +1,7 @@
 import Argument from './Argument';
 import RequestBodyArgument from './RequestBodyArgument';
 import FromBodyArgument from './FromBodyArgument';
-import FromParamsArgument from './FromParamsArgument';
+import FromRouteArgument from './FromRouteArgument';
 import FromQueryArgument from './FromQueryArgument';
 import FromHeaderArgument from './FromHeaderArgument';
 
@@ -13,8 +13,8 @@ export function FromBody(name: string): Argument {
     return new FromBodyArgument(name);
 }
 
-export function FromParams(name: string): Argument {
-    return new FromParamsArgument(name);
+export function FromRoute(name: string): Argument {
+    return new FromRouteArgument(name);
 }
 
 export function FromQuery(name: string): Argument {
