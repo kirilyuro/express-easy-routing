@@ -5,9 +5,12 @@ abstract class Controller {
     public response: Response;
 
     public invokeActionMethod(actionMethod: Function, args: any[]): void {
-        // TODO: Handle errors thrown from actionMethod.
-        const actionResult: any = actionMethod.apply(this, args);
-        this.handleActionResult(actionResult);
+        new Promise(
+            resolve => {
+                resolve(actionMethod.apply(this, args));
+            })
+            .then(this.handleActionResult)
+            .catch(this.handleErrorResult);
     }
 
     private handleActionResult: ((result: any, statusCode?: number) => void) = (result, statusCode?) => {
