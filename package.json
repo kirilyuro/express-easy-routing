@@ -12,7 +12,9 @@
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.4",
+    "@types/http-status-codes": "^1.0.29",
     "body-parser": "^1.17.2",
+    "http-status-codes": "^1.2.0",
     "tsconfig-paths": "^2.2.0"
   }
 }

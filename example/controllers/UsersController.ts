@@ -1,5 +1,6 @@
 import Controller from 'src/Controller';
 import User from '../model/User';
+import * as HttpStatus from 'http-status-codes';
 
 type Dictionary<T> = { [index: string]: T };
 
@@ -14,7 +15,7 @@ export default class UsersController extends Controller {
         if (UsersController.users.hasOwnProperty(id)) {
             return UsersController.users[id];
         }
-        this.response.sendStatus(404);
+        this.response.sendStatus(HttpStatus.NOT_FOUND);
     }
 
     public getUserAsync(id: string): Promise<User> {
