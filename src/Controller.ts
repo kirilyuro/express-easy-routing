@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import * as HttpStatus from 'http-status-codes';
 
 abstract class Controller {
     public request: Request;
@@ -21,7 +22,7 @@ abstract class Controller {
             return;
         }
 
-        this.response.status(statusCode || 200).json(result);
+        this.response.status(statusCode || HttpStatus.OK).json(result);
     };
 
     private handleAsyncActionResult(result: Promise<any>): void {
@@ -34,7 +35,7 @@ abstract class Controller {
         this.handleActionResult(
             // TODO: Add option to exclude stack from response (for production env).
             new ErrorResult(error.name, error.message, error.stack),
-            500
+            HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 }
