@@ -14,7 +14,7 @@ abstract class Controller {
             .catch(this.handleErrorResult);
     }
 
-    private handleActionResult: ((result: any, statusCode?: number) => void) = (result, statusCode?) => {
+    private handleActionResult = (result: any, statusCode: number = HttpStatus.OK) => /* void */ {
         if (this.response.finished) return;
 
         if (result instanceof Promise) {
@@ -22,7 +22,7 @@ abstract class Controller {
             return;
         }
 
-        this.response.status(statusCode || HttpStatus.OK).json(result);
+        this.response.status(statusCode).json(result);
     };
 
     private handleAsyncActionResult(result: Promise<any>): void {
@@ -31,7 +31,7 @@ abstract class Controller {
             .catch(this.handleErrorResult);
     }
 
-    private handleErrorResult: ((error: Error) => void) = error => {
+    private handleErrorResult = (error: Error) => /* void */ {
         this.handleActionResult(
             // TODO: Add option to exclude stack from response (for production env).
             new ErrorResult(error.name, error.message, error.stack),
