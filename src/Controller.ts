@@ -48,7 +48,7 @@ abstract class Controller {
 
     private handleErrorResult = (error: Error) => /* void */ {
 
-        const errorType: string = error.constructor.name;
+        const errorType: string = error.name;
         const result: ActionResult<any> = this.errorMappings.hasOwnProperty(errorType) ?
             this.errorMappings[errorType](error) :
             new ErrorResult(error);
