@@ -4,11 +4,15 @@ import Controller from './Controller';
 import HttpMethod from './HttpMethod';
 import RouteAction from './RouteAction';
 import Argument from './arguments/Argument';
+import ErrorResultMapper from './results/ErrorResultMapper';
+import Dictionary from './common/Dictionary';
 
 /**
  * Base class for route definitions.
  */
 abstract class Route {
+
+    protected readonly errorMappings: Dictionary<ErrorResultMapper<any>> = {};
 
     /**
      * Get the express.js router for this route.
@@ -17,6 +21,7 @@ abstract class Route {
     public get router(): IRouter {
         const router: IRouter = Router();
         const actions: RouteAction[] = this.getActions();
+        this.configureErrorMappings();
 
         for (const action of actions){
             // Get the matcher method of the router which corresponds
@@ -69,6 +74,7 @@ abstract class Route {
         const controller: Controller = this.createController(req);
         controller.request = req;
         controller.response = res;
+        controller.errorMappings = this.errorMappings;
         return controller;
     }
 
@@ -96,6 +102,8 @@ abstract class Route {
      * @returns {Controller} The controller instance.
      */
     protected abstract createController(request: Request): Controller;
+
+    protected abstract configureErrorMappings(): void;
 }
 
 export default Route;

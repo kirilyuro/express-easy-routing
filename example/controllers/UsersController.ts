@@ -1,8 +1,7 @@
 import Controller from 'src/Controller';
+import Dictionary from 'src/common/Dictionary';
 import User from '../model/User';
-import * as HttpStatus from 'http-status-codes';
-
-type Dictionary<T> = { [index: string]: T };
+import UserNotExistsError from '../exceptions/UserNotExistsError';
 
 export default class UsersController extends Controller {
 
@@ -15,7 +14,8 @@ export default class UsersController extends Controller {
         if (UsersController.users.hasOwnProperty(id)) {
             return UsersController.users[id];
         }
-        this.response.sendStatus(HttpStatus.NOT_FOUND);
+
+        throw new UserNotExistsError(id);
     }
 
     public getUserAsync(id: string): Promise<User> {
