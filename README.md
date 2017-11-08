@@ -8,6 +8,7 @@ This library extends express' routing mechanism to allow easy definition and usa
   * [Terminology](#terminology)
   * [Defining a Route](#defining-a-route)
     + [Defining a Route Action](#defining-a-route-action)
+    + [Using the Route in the express Application](#using-the-route-in-the-express-application)
   * [Defining a Controller](#defining-a-controller)
     + [Async Controller Methods](#async-controller-methods)
     + [Request and Response in the Controller](#request-and-response-in-the-controller)
@@ -79,6 +80,13 @@ Arguments(FromRoute('id'), RequestBody())
 
 // The handler method definition in the controller:
 public addUser(id: string, user: User): void { /* ... */ }
+```
+
+### Using the Route in the express Application
+The concrete route exposes a `router` property which returns the express router for that route. This router can then be registered as middleware in the express application.
+```ts
+const app = express();
+app.use('/users', new UsersRoute().router);
 ```
 
 ## Defining a Controller
