@@ -103,7 +103,7 @@ abstract class Route {
      */
     protected abstract createController(request: Request): Controller;
 
-    protected abstract configureErrorMappings(): void;
+    protected configureErrorMappings(): void {}
 }
 
 export default Route;
