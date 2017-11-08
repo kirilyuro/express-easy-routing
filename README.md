@@ -94,7 +94,7 @@ Although, ideally, the controller should not be aware of express, in some cases 
 ## Handling Errors
 Ideally, the controller should only throw application-level errors rather than HTTP status codes (such as "404 Not Found" and "500 Internal Server Error"). Though, eventually, we would want the route to respond with a "404 Not Found" code if the controller throws a `UserDoesNotExistError`, for example.  
 Internally, the `Route` type defines an `errorMappings` property which is a dictionary used by the route to map errors from the controller's handler methods to HTTP status codes and response values. By default, the route will map all (unmapped) errors to "500 Internal Server Error" responses with a JSON representation of the error as the response body.  
-The keys in the `errorMappings` dictionary are the names of the errors (i.e. the value of the `name` property of the error object), and the values are functions from error to `ActionResult`. The `ActionResult` is defined by a HTTP status code and, optionally, a response value.  
+The keys in the `errorMappings` dictionary are the names of the errors (i.e. the value of the `name` property of the error type), and the values are functions from error to `ActionResult`. The `ActionResult` is defined by a HTTP status code and, optionally, a response value.
 The error mappings can be configured in the route by overriding the `configureErrorMappings` method defined in the `Route` type. There, new error mappings can be added to the `errorMappings` property inherited by the concrete route from the base `Route` type.  
 Therefore, for the (`UserDoesNotExistError` => "404 Not Found") example, the error mappings can be configured as:
 ```ts
