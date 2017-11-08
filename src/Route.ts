@@ -103,6 +103,9 @@ abstract class Route {
      */
     protected abstract createController(request: Request): Controller;
 
+    /**
+     * Configure the mappings of application errors to action results.
+     */
     protected configureErrorMappings(): void {}
 }
 
