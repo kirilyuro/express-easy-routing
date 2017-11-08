@@ -2,6 +2,17 @@
 Clean and easy routing with [express](https://expressjs.com/) and [TypeScript](https://www.typescriptlang.org/).  
 This library extends express' routing mechanism to allow easy definition and usage of routes and their parameters, with the route handling logic being implemented as pure application logic and indpendent from express.
 
+## Table of Contents
+- [express-easy-routing](#express-easy-routing)
+  * [Table of Contents](#table-of-contents)
+  * [Terminology](#terminology)
+  * [Defining a Route](#defining-a-route)
+    + [Defining a Route Action](#defining-a-route-action)
+  * [Defining a Controller](#defining-a-controller)
+    + [Async Controller Methods](#async-controller-methods)
+    + [Request and Response in the Controller](#request-and-response-in-the-controller)
+  * [Handling Errors](#handling-errors)
+
 ## Terminology
 ***Routes*** are defined by types which extend the `Route` type.  
 Each route may define one or more ***Actions***. An action represents an endpoint for client requests, defined by an HTTP request method (GET, POST, and so on), a URI (or path), a handler function and, optionally, some parameters.  
@@ -80,7 +91,7 @@ Async controller methods are supported by *Promises* - if the handler function r
 ### Request and Response in the Controller
 Although, ideally, the controller should not be aware of express, in some cases the raw `request` and `response` objects may be required in the controller. The base `Controller` type exposes both these objects as public properties which can be used inside the concrete controller.
 
-# Handling Errors
+## Handling Errors
 Ideally, the controller should only throw application-level errors rather than HTTP status codes (such as "404 Not Found" and "500 Internal Server Error"). Though, eventually, we would want the route to respond with a "404 Not Found" code if the controller throws a `UserDoesNotExistError`, for example.  
 Internally, the `Route` type defines an `errorMappings` property which is a dictionary used by the route to map errors from the controller's handler methods to HTTP status codes and response values. By default, the route will map all (unmapped) errors to "500 Internal Server Error" responses with a JSON representation of the error as the response body.  
 The keys in the `errorMappings` dictionary are the names of the errors (i.e. the value of the `name` property of the error object), and the values are functions from error to `ActionResult`. The `ActionResult` is defined by a HTTP status code and, optionally, a response value.  
