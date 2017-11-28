@@ -33,19 +33,23 @@ abstract class Route {
             // Invoke the matcher method on the router by matching the action's url
             // and binding the action's handler function to the controller.
             // ( This does: router.<get|post|put|...>(action.url, (req, res) => { ... }) )
-            routeMatcher.apply(router, [action.url, (req: Request, res: Response) => {
-                const controller: Controller = this.initializeController(req, res);
-                const args: any[] = Route.getArgumentValues(action.args, req);
-
-                // Invoke the method of the controller that handles the current action.
-                const actionResult = controller.invokeActionMethod(action.controllerFunc, args);
-
-                new ActionResultHandler(this.errorMappings, res)
-                    .handleResult(actionResult);
-            }]);
+            routeMatcher.apply(router,
+                [action.url, this.handleActionRequest.bind(this, action)]
+            );
         }
 
         return router;
+    }
+
+    private handleActionRequest(action: RouteAction, req: Request, res: Response): void {
+        const controller: Controller = this.initializeController(req, res);
+        const args: any[] = Route.getArgumentValues(action.args, req);
+
+        // Invoke the method of the controller that handles the current action.
+        const actionResult = controller.invokeActionMethod(action.controllerFunc, args);
+
+        new ActionResultHandler(this.errorMappings, res)
+            .handleResult(actionResult);
     }
 
     /**
