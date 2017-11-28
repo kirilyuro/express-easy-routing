@@ -41,13 +41,18 @@ abstract class Route {
         return router;
     }
 
-    private handleActionRequest(action: RouteAction, req: Request, res: Response): void {
-        const controller: Controller = this.initializeController(req, res);
+    protected handleActionRequest(action: RouteAction, req: Request, res: Response): void {
+        const controller: Controller = this.createController(req);
+        this.initializeController(controller, req, res);
         const args: any[] = Route.getArgumentValues(action.args, req);
 
         // Invoke the method of the controller that handles the current action.
         const actionResult = controller.invokeActionMethod(action.controllerFunc, args);
 
+        this.handleActionResult(actionResult, res);
+    }
+
+    protected handleActionResult(actionResult: Promise<any>, res: Response): void {
         new ActionResultHandler(this.errorMappings, res)
             .handleResult(actionResult);
     }
@@ -78,11 +83,9 @@ abstract class Route {
      * @param {e.Response} res The response handler of the request.
      * @returns {Controller} A new controller instance.
      */
-    private initializeController(req: Request, res: Response): Controller {
-        const controller: Controller = this.createController(req);
+    protected initializeController(controller: Controller, req: Request, res: Response): void {
         controller.request = req;
         controller.response = res;
-        return controller;
     }
 
     /**
