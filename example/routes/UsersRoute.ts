@@ -1,13 +1,13 @@
 import * as HttpStatus from 'http-status-codes';
-import Route from 'src/Route';
 import RouteAction from 'src/RouteAction';
 import ActionResult from 'src/results/ActionResult';
 import Http from 'src/HttpMethod';
 import { Arguments, FromRoute, RequestBody } from 'src/arguments/Arguments';
+import CallerAuthenticatingRoute from './CallerAuthenticatingRoute';
 import UsersController from '../controllers/UsersController';
 import UserNotExistsError from '../exceptions/UserNotExistsError';
 
-export default class UsersRoute extends Route {
+export default class UsersRoute extends CallerAuthenticatingRoute {
     protected getActions(): RouteAction[] {
         return [
             new RouteAction(
@@ -38,6 +38,7 @@ export default class UsersRoute extends Route {
     }
 
     protected configureErrorMappings(): void {
+        super.configureErrorMappings();
         this.errorMappings[UserNotExistsError.name] = (error => new ActionResult(HttpStatus.NOT_FOUND));
     }
 

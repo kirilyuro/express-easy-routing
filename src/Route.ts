@@ -5,6 +5,7 @@ import HttpMethod from './HttpMethod';
 import RouteAction from './RouteAction';
 import Argument from './arguments/Argument';
 import ErrorResultMapper from './results/ErrorResultMapper';
+import ActionResultHandler from './results/ActionResultHandler';
 import Dictionary from './common/Dictionary';
 
 /**
@@ -32,16 +33,39 @@ abstract class Route {
             // Invoke the matcher method on the router by matching the action's url
             // and binding the action's handler function to the controller.
             // ( This does: router.<get|post|put|...>(action.url, (req, res) => { ... }) )
-            routeMatcher.apply(router, [action.url, (req: Request, res: Response) => {
-                const controller: Controller = this.initializeController(req, res);
-                const args: any[] = Route.getArgumentValues(action.args, req);
-
-                // Invoke the method of the controller that handles the current action.
-                controller.invokeActionMethod(action.controllerFunc, args);
-            }]);
+            routeMatcher.apply(router,
+                [action.url, this.handleActionRequest.bind(this, action)]
+            );
         }
 
         return router;
+    }
+
+    /**
+     * Handle a request for a given action.
+     * @param {RouteAction} action The requested route action.
+     * @param {e.Request} req The request object.
+     * @param {e.Response} res The response handler of the request.
+     */
+    protected handleActionRequest(action: RouteAction, req: Request, res: Response): void {
+        const controller: Controller = this.createController(req);
+        this.initializeController(controller, req, res);
+        const args: any[] = Route.getArgumentValues(action.args, req);
+
+        // Invoke the method of the controller that handles the current action.
+        const actionResult = controller.invokeActionMethod(action.controllerFunc, args);
+
+        this.handleActionResult(actionResult, res);
+    }
+
+    /**
+     * Handle the result of an action.
+     * @param {Promise} actionResult The action result promise.
+     * @param {e.Response} res The response handler object.
+     */
+    protected handleActionResult(actionResult: Promise<any>, res: Response): void {
+        new ActionResultHandler(this.errorMappings, res)
+            .handleResult(actionResult);
     }
 
     /**
@@ -65,17 +89,14 @@ abstract class Route {
     }
 
     /**
-     * Initialize a new controller instance for the given request.
+     * Initialize the given controller instance.
+     * @param {Controller} controller The controller being initialized.
      * @param {Request} req The request.
      * @param {e.Response} res The response handler of the request.
-     * @returns {Controller} A new controller instance.
      */
-    private initializeController(req: Request, res: Response): Controller {
-        const controller: Controller = this.createController(req);
+    protected initializeController(controller: Controller, req: Request, res: Response): void {
         controller.request = req;
         controller.response = res;
-        controller.errorMappings = this.errorMappings;
-        return controller;
     }
 
     /**
