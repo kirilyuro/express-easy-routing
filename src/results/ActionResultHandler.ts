@@ -18,14 +18,14 @@ export default class ActionResultHandler {
             .catch(this.handleErrorResult);
     }
 
-    private normalizeActionResult = (result: any) => /* ActionResult<any> */ {
+    private normalizeActionResult = (result: any): ActionResult<any> => {
         if (result instanceof ActionResult)
             return result;
 
         return new SuccessResult(result);
     };
 
-    private handleActionResult = (result: ActionResult<any>) => /* void */ {
+    private handleActionResult = (result: ActionResult<any>): void => {
         if (this.response.finished) return;
 
         if (result.value instanceof Promise) {
@@ -44,7 +44,7 @@ export default class ActionResultHandler {
             .catch(this.handleErrorResult);
     }
 
-    private handleErrorResult = (error: Error) => /* void */ {
+    private handleErrorResult = (error: Error): void => {
         const errorType: string = error.name;
         const result: ActionResult<any> = this.errorMappings.hasOwnProperty(errorType) ?
             this.errorMappings[errorType](error) :
