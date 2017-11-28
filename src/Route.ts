@@ -5,6 +5,7 @@ import HttpMethod from './HttpMethod';
 import RouteAction from './RouteAction';
 import Argument from './arguments/Argument';
 import ErrorResultMapper from './results/ErrorResultMapper';
+import ActionResultHandler from './results/ActionResultHandler';
 import Dictionary from './common/Dictionary';
 
 /**
@@ -37,7 +38,10 @@ abstract class Route {
                 const args: any[] = Route.getArgumentValues(action.args, req);
 
                 // Invoke the method of the controller that handles the current action.
-                controller.invokeActionMethod(action.controllerFunc, args);
+                const actionResult = controller.invokeActionMethod(action.controllerFunc, args);
+
+                new ActionResultHandler(this.errorMappings, res)
+                    .handleResult(actionResult);
             }]);
         }
 
@@ -74,7 +78,6 @@ abstract class Route {
         const controller: Controller = this.createController(req);
         controller.request = req;
         controller.response = res;
-        controller.errorMappings = this.errorMappings;
         return controller;
     }
 
