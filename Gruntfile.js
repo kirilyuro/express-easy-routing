@@ -8,7 +8,7 @@ module.exports = function (grunt) {
             dist: {
                 files: [
                     { expand: true, cwd: 'src/', src: '**', dest: 'dist/' },
-                    { expand: true, src: 'package.json', dest: 'dist/' }
+                    { expand: true, src: ['package.json', 'README.md'], dest: 'dist/' }
                 ]
             }
         },
