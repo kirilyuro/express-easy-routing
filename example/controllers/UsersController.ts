@@ -1,4 +1,4 @@
-import Dictionary from 'src/common/Dictionary';
+import Dictionary from 'express-easy-routing/common/Dictionary';
 import AuthenticatedCallerController from './AuthenticatedCallerController';
 import User from '../model/User';
 import UserNotExistsError from '../exceptions/UserNotExistsError';

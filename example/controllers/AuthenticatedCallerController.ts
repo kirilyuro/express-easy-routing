@@ -1,4 +1,4 @@
-import Controller from 'src/Controller';
+import Controller from 'express-easy-routing/Controller';
 
 abstract class AuthenticatedCallerController extends Controller {
     public callerId: string;

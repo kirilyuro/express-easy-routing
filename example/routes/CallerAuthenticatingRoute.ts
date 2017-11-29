@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import * as HttpStatus from 'http-status-codes';
-import Route from 'src/Route';
-import RouteAction from 'src/RouteAction';
-import ActionResult from 'src/results/ActionResult';
-import Controller from 'src/Controller';
+import Route from 'express-easy-routing/Route';
+import RouteAction from 'express-easy-routing/RouteAction';
+import ActionResult from 'express-easy-routing/results/ActionResult';
+import Controller from 'express-easy-routing/Controller';
 import AuthenticatedCallerController from '../controllers/AuthenticatedCallerController';
 
 abstract class CallerAuthenticatingRoute extends Route {

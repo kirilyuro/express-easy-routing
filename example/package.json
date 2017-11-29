@@ -1,0 +1,8 @@
+{
+  "name": "express-easy-routing-example",
+  "version": "0.3.2",
+  "dependencies": {},
+  "devDependencies": {
+    "express-easy-routing": "^0.3.2"
+  }
+}

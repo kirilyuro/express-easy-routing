@@ -1,8 +1,8 @@
 import * as HttpStatus from 'http-status-codes';
-import RouteAction from 'src/RouteAction';
-import ActionResult from 'src/results/ActionResult';
-import Http from 'src/HttpMethod';
-import { Arguments, FromRoute, RequestBody } from 'src/arguments/Arguments';
+import RouteAction from 'express-easy-routing/RouteAction';
+import ActionResult from 'express-easy-routing/results/ActionResult';
+import Http from 'express-easy-routing/HttpMethod';
+import { Arguments, FromRoute, RequestBody } from 'express-easy-routing/arguments/Arguments';
 import CallerAuthenticatingRoute from './CallerAuthenticatingRoute';
 import UsersController from '../controllers/UsersController';
 import UserNotExistsError from '../exceptions/UserNotExistsError';
