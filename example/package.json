@@ -1,6 +1,11 @@
 {
   "name": "express-easy-routing-example",
   "version": "0.3.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kirilyuro/express-easy-routing.git"
+  },
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "express-easy-routing": "^0.3.2"
