@@ -13,6 +13,7 @@ This library extends express' routing mechanism to allow easy definition and usa
     + [Async Controller Methods](#async-controller-methods)
     + [Request and Response in the Controller](#request-and-response-in-the-controller)
   * [Handling Errors](#handling-errors)
+  * [Sample Application](#sample-application)
 
 ## Terminology
 ***Routes*** are defined by types which extend the `Route` type.  
@@ -107,6 +108,12 @@ The error mappings can be configured in the route by overriding the `configureEr
 Therefore, for the (`UserDoesNotExistError` => "404 Not Found") example, the error mappings can be configured as:
 ```ts
 protected configureErrorMappings(): void {
-  this.errorMappings[UserDoesNotExistError.name] = (error => new ActionResult(HttpStatus.NOT_FOUND));
+  this.errorMappings[UserDoesNotExistError.name] = (error => 
+    new ActionResult(HttpStatus.NOT_FOUND)
+  );
 }
 ```
+
+## Sample Application
+The source code contains a sample application under `example/`, which demonstrates a complete usage of the `express-easy-routing` module in a simple `express` application.  
+The example demonstrates all of the above concepts, along with some more advanced usage (such as extending the base route and controller types to include additional data from the request).
