@@ -1,6 +1,6 @@
 # express-easy-routing
 Clean and easy routing with [express](https://expressjs.com/) and [TypeScript](https://www.typescriptlang.org/).  
-This library extends express' routing mechanism to allow easy definition and usage of routes and their parameters, with the route handling logic being implemented as pure application logic and indpendent from express.
+This library extends express' routing mechanism to allow easy definition and usage of routes and their parameters, with the route handling logic being implemented as pure application logic and independent from express.
 
 ## Table of Contents
 - [express-easy-routing](#express-easy-routing)
@@ -18,7 +18,7 @@ This library extends express' routing mechanism to allow easy definition and usa
 ## Terminology
 ***Routes*** are defined by types which extend the `Route` type.  
 Each route may define one or more ***Actions***. An action represents an endpoint for client requests, defined by an HTTP request method (GET, POST, and so on), a URI (or path), a handler function and, optionally, some parameters.  
-The action requests are handeled by ***Controllers***, which are just plain TypeScript classes which define the handler functions for the actions.
+The action requests are handled by ***Controllers***, which are just plain TypeScript classes which define the handler functions for the actions.
 
 ## Defining a Route
 A route is defined by a type which extends the abstract `Route` type.  
