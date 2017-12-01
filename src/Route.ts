@@ -48,14 +48,23 @@ abstract class Route {
      * @param {e.Response} res The response handler of the request.
      */
     protected handleActionRequest(action: RouteAction, req: Request, res: Response): void {
-        const controller: Controller = this.createController(req);
-        this.initializeController(controller, req, res);
-        const args: any[] = Route.getArgumentValues(action.args, req);
-
-        // Invoke the method of the controller that handles the current action.
-        const actionResult = controller.invokeActionMethod(action.controllerFunc, args);
+        const actionResult: Promise<any> =
+            this.invokeActionHandler(action, req, res);
 
         this.handleActionResult(actionResult, res);
+    }
+
+    protected invokeActionHandler(action: RouteAction, req: Request, res: Response): Promise<any> {
+        return new Promise(resolve => {
+            const controller: Controller = this.createController(req);
+            this.initializeController(controller, req, res);
+            const args: any[] = Route.getArgumentValues(action.args, req);
+
+            // Invoke the method of the controller that handles the current action.
+            const actionResult = controller.invokeActionMethod(action.controllerFunc, args);
+
+            resolve(actionResult);
+        });
     }
 
     /**
