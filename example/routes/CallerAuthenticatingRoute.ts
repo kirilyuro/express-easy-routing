@@ -7,6 +7,8 @@ import AuthenticatedCallerController from '../controllers/AuthenticatedCallerCon
 
 abstract class CallerAuthenticatingRoute extends Route {
 
+    private static readonly authorizedCallers = ['admin', 'john', 'doe'];
+
     protected initializeController(controller: Controller, request: Request, response: Response): void {
         (controller as AuthenticatedCallerController).callerId =
             CallerAuthenticatingRoute.authenticateCaller(request);
@@ -25,7 +27,7 @@ abstract class CallerAuthenticatingRoute extends Route {
     private static authenticateCaller(request: Request) {
         const callerId: string = request.header('Caller-Id');
 
-        if (callerId !== 'admin') {
+        if (!CallerAuthenticatingRoute.authorizedCallers.includes(callerId)) {
             throw new UnauthorizedCallerError(callerId);
         }
 
