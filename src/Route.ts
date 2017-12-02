@@ -54,6 +54,13 @@ abstract class Route {
         this.handleActionResult(actionResult, res);
     }
 
+    /**
+     * Invoke the action method on this route's controller corresponding to the given route action.
+     * @param {RouteAction} action The route action.
+     * @param {Request} req The express request object.
+     * @param {Response} res The express response handler object.
+     * @returns {Promise} The result of the invocation of the action method.
+     */
     protected invokeActionHandler(action: RouteAction, req: Request, res: Response): Promise<any> {
         return new Promise(resolve => {
             const controller: Controller = this.createController(req);
