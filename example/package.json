@@ -8,6 +8,6 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "express-easy-routing": "^0.3.2"
+    "express-easy-routing": "^0.3.3"
   }
 }
